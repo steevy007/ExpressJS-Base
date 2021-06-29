@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Server Page</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+<center>
+    <form id="sub">
+        <table>
+        <tr>
+            <td>Nom</td>
+            <td><input id="nom" name="nom" placeholder="Votre nom svp"/>
+        </tr>
+        <tr>
+            <td>Prenom</td>
+            <td><input id="prenom" name="prenom" placeholder="Votre prenom svp"/>
+        </tr>
+        <tr><td><input type="submit" value="envoyer"  /></td></tr>
+        </table>
+    </form>
+</center>
+
+<script>
+    $(document).ready(()=>{
+        $("#sub").submit((e)=>{
+            e.preventDefault();
+
+            const nom=$('#nom').val().trim();
+            const prenom=$("#prenom").val().trim();
+
+            const user={
+                nom:nom,
+                prenom:prenom
+            }
+            /*
+            $.post('/postUser',user,(response)=>{
+                console.log(response);
+            })*/
+
+            $.ajax({
+                url:'/postUser',
+                method:'POST',
+                data:user,
+                headers:{
+                    "x-testing":"student",
+                    "x-class":'class'
+                } 
+            })
+            .then((response)=>{
+                console.log(response.data);
+            })
+            .catch((err)=>{
+                console.log("err : ",err)
+            })
+        })
+    })
+</script>
+</body>
+</html>
